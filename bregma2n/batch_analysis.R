@@ -1,5 +1,5 @@
 
-source("main_init.R")
+source("init/main_init.R")
 
 # variable ----------------------------------------------------------------
 
