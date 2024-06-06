@@ -8,7 +8,7 @@ temp_files <- c(choose.files())
 
 # output ------------------------------------------------------------------
 
-temp_dir_path <- paste("data/data_fixed_hip/")
+temp_dir_path <- paste0("data/data_fixed_",multiplier$structure,"/")
 dir.create(temp_dir_path)
 
 # settings ----------------------------------------------------------------
@@ -26,12 +26,10 @@ temp_files %>%
   as.data.frame() %>%
   rename(filepath = '.') %>%
   write.table(file = paste(temp_dir_path, 
-                           "info_source_data_",
-                           util$today, ".txt", sep = ""))
+                           "info_source_data", ".txt", sep = ""))
 
 multiplier[c("source_female","source_male")] %>% 
   cbind() %>%
   #as.data.frame() %>%
   write.table(file = paste(temp_dir_path, 
-                           "info_source_multiplier_",
-                           util$today, ".txt", sep = ""))
+                           "info_source_multiplier", ".txt", sep = ""))

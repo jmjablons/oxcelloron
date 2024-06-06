@@ -25,7 +25,7 @@ cat("CELLS DONE\n\n")
 # coverage ----------------------------------------------------------------
 
 temp_file_neurites <- temp_list %>% 
-  stringr::str_split(pattern= "\\\\") %>% 
+  stringr::str_split(pattern= "[\\,\\\\,//]") %>%
   purrr::map(~.[length(.)]) %>%
   stringr::str_replace_all(pattern = "^(\\w+?_){2}", replacement = "") %>%
   unique() %>%

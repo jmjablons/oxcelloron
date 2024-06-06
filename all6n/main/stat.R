@@ -14,7 +14,7 @@ require(readr)
 # version -----------------------------------------------------------------
 
 temp_file_name <- temp_file %>% 
-  stringr::str_split(pattern= "\\\\") %>% 
+  stringr::str_split(pattern= "[\\,\\\\,//]") %>%
   purrr::map(~.[length(.)]) %>%
   unique() %>%
   sub(pattern = ".csv", replacement = "")

@@ -17,15 +17,10 @@ library(readr)
 
 patch$data_version <- 
   temp_file %>% 
-  stringr::str_split(pattern= "\\\\") %>% 
+  stringr::str_split(pattern= "[\\,\\\\,//]") %>%
   purrr::map(~.[length(.)]) %>%
   unique() %>%
   stringr::str_replace_all("data_","")
-
-# inform ------------------------------------------------------------------
-
-cat("File processed:")
-cat(patch$data_version)
 
 # read file ---------------------------------------------------------------
 

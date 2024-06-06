@@ -11,9 +11,8 @@ library(readr)
 
 val$data_version <- 
   temp_file %>% 
-  stringr::str_split(pattern= "\\\\") %>% 
-  stringr::str_split(pattern= "/") %>% 
-  purrr::map(~grep(., pattern = "results_", value = T)) %>% 
+  stringr::str_split(pattern= "[\\,\\\\,//]") %>% 
+  purrr::map(~.[length(.)]) %>% 
   unlist() %>% 
   unique()
 

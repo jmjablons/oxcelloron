@@ -22,7 +22,7 @@ temp <- list(switch_control = NA)
 
 temp$data_version <- 
   temp_file %>% 
-  stringr::str_split(pattern= "\\\\") %>% 
+  stringr::str_split(pattern= "[\\,\\\\,//]") %>% 
   purrr::map(~.[length(.)]) %>%
   unique()
 
