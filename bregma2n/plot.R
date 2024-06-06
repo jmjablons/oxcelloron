@@ -3,9 +3,15 @@ require(readr)
 require(patchwork)
 require(ggbeeswarm)
 
-# custom ------------------------------------------------------------------
-
+source("init/main_init.R")
 source("all6n/main/custom_plot.R")
+
+# val ---------------------------------------------------------------------
+
+gender <- c("male","female")[2]
+dir.create("bregma2n/figure/")
+
+# custom ------------------------------------------------------------------
 
 custom_get_plot <- function(temp_measure){
   temp_dat <- temp_data %>% 
@@ -22,8 +28,8 @@ custom_set_axis <- function(which_plot, min, max, by = 0.1){
 
 # basic -------------------------------------------------------------------
 
-temp_file <- c("bregma2n/results/fc_anno_cells_male_manual_sharp.csv", 
-               "bregma2n/results/fc_dete_cells_male_manual_sharp.csv")
+temp_file <- c(paste0("bregma2n/results/fc_anno_cells_",gender,"_manual_sharp.csv"), 
+               paste0("bregma2n/results/fc_dete_cells_",gender,"_manual_sharp.csv"))
 
 temp_data <- tibble(path = temp_file) %>%
   rowwise() %>%
@@ -41,8 +47,8 @@ temp_measures <- temp_data$name %>% unique()
 
 # get stat ----------------------------------------------------------------
 
-temp_file <- c("bregma2n/stat/stat_fc_anno_cells_male_manual_sharp.xlsx", 
-               "bregma2n/stat/stat_fc_dete_cells_male_manual_sharp.xlsx")
+temp_file <- c(paste0("bregma2n/stat/stat_fc_anno_cells_",gender,"_manual_sharp.xlsx"), 
+               paste0("bregma2n/stat/stat_fc_dete_cells_",gender,"_manual_sharp.xlsx"))
 
 temp_stat <- list()
 
@@ -60,14 +66,15 @@ temp_stat$posthoc <- tibble(path = temp_file) %>%
 
 # final plot --------------------------------------------------------------
 
-accent_color = "#7DD8F0" 
-accent_color = "#F0E67D" 
-accent_color = "#F07DA5"
+if(gender %in% "male"){
+  accent_color = "#7DD8F0"  
+} else {
+  accent_color = "#F07DA5"
+}
+
+#accent_color = "#F0E67D" 
 
 temp_plots <- lapply(temp_measures, custom_get_plot)
-
-wrap_plots(temp_plots, nrow = 1) +
-  patchwork::plot_annotation(tag_levels = "A")
 
 custom_set_axis(1, 0.5, 1.6)
 custom_set_axis(2, 0.5, 1.6)
@@ -75,5 +82,8 @@ custom_set_axis(3, 0.5, 1.6)
 custom_set_axis(4, 0.8, 1.6)
 custom_set_axis(5, 0.8, 1.3)
 
-ggsave(filename = "bregma2n/temp/plot_male.pdf", 
+p<-wrap_plots(temp_plots, nrow = 1) +
+  patchwork::plot_annotation(tag_levels = "A")
+
+ggsave(plot = p, filename = paste0("bregma2n/figure/plot_",gender,".pdf"), 
        height = 7, width = 14, scale = 1.75, units = "cm")
